@@ -4,7 +4,8 @@
 
 // Retrieve backend URL from localStorage, or default to http://localhost:8000
 export const getBackendUrl = () => {
-  return localStorage.getItem('TRAILSCOPE_BACKEND_URL') || 'http://localhost:8000';
+  return localStorage.getItem('TRAILSCOPE_BACKEND_URL')
+    || 'https://trailscope-backend.onrender.com';
 };
 
 // Set and save backend URL in localStorage
