@@ -30,6 +30,39 @@ GRAPH_PATH = "../data/processed/graph.json"
 
 def load_json(path):
     if not os.path.exists(path):
+        # Fallback for risk_scores.json if graph.json exists
+        if path == RISK_SCORES_PATH and os.path.exists(GRAPH_PATH):
+            try:
+                with open(GRAPH_PATH) as f:
+                    graph_data = json.load(f)
+                
+                # Derive transactions count and volumes from the graph edges
+                txn_count = {}
+                txn_volume = {}
+                for edge in graph_data.get("edges", []):
+                    u, v = edge["from"], edge["to"]
+                    amt = edge.get("amount", 0)
+                    txn_count[u] = txn_count.get(u, 0) + 1
+                    txn_count[v] = txn_count.get(v, 0) + 1
+                    txn_volume[u] = txn_volume.get(u, 0) + amt
+                    txn_volume[v] = txn_volume.get(v, 0) + amt
+
+                accounts = []
+                for node in graph_data.get("nodes", []):
+                    nid = node["id"]
+                    accounts.append({
+                        "accountId": nid,
+                        "riskScore": node.get("riskScore", 0),
+                        "riskTier": node.get("riskTier", "low"),
+                        "flaggedReasons": [],
+                        "totalTransactions": txn_count.get(nid, 0),
+                        "totalVolume": txn_volume.get(nid, 0),
+                        "isFraudGroundTruth": False
+                    })
+                return accounts
+            except Exception as e:
+                print(f"Error building fallback accounts: {e}")
+                pass
         raise HTTPException(status_code=503, detail=f"Data not ready: {path} missing. Run the pipeline scripts first.")
     with open(path) as f:
         return json.load(f)
