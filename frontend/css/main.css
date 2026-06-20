@@ -915,3 +915,8 @@ img {
 .line {
   display: block;
 }
+
+.metric-number {
+  white-space: nowrap;
+  font-size: clamp(2rem, 4vw, 5rem);
+}
