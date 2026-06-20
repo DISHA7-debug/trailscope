@@ -1,0 +1,133 @@
+/* ============================================
+   TrailScope — Animation utilities
+   ============================================ */
+
+.reveal-text .line {
+  transform: translateY(110%);
+  opacity: 0;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.reveal-blur {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(20px);
+}
+
+.is-visible .reveal-text .line,
+.reveal-text.is-visible .line {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.is-visible.reveal-up,
+.reveal-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+[data-stagger] > * {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* Feature card 3D tilt */
+.feature-card,
+.testimonial-card,
+.about-card {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Magnetic button active state */
+.btn.magnetic-active {
+  transform: scale(0.96);
+}
+
+/* Page loaded state */
+body.loaded .hero-glow {
+  animation: hero-glow-in 2s var(--transition) forwards;
+}
+
+@keyframes hero-glow-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Floating animation for ambient elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-12px) rotate(1deg); }
+  66% { transform: translateY(6px) rotate(-1deg); }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glass reflection shimmer */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.glass-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+}
+
+/* Section transition overlay */
+.section-transition {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
+}
+
+.section-transition.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal-text .line,
+  .reveal-up,
+  .reveal-scale,
+  .reveal-blur {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
