@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TrailScope — AI-powered financial crime investigation command center." />
+  <title>TrailScope — Investigation Command Center</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/investigation.css" />
+</head>
+
+<body>
+  <!-- Cinematic Boot-up Screen -->
+  <div class="boot-screen" id="boot-screen" aria-hidden="true">
+    <div class="boot-logo">
+      <span class="logo-mark">◈</span>
+      TRAILSCOPE
+    </div>
+    <div class="boot-loader-ring"></div>
+    <div class="boot-status-console" id="boot-log-console">
+      <!-- Animated lines appended here via JS -->
+    </div>
+  </div>
+
+  <!-- Ambient Custom Cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+  </div>
+
+  <!-- Background Layer Canvas (particles) -->
+  <canvas class="particles-canvas" id="particlesCanvas" aria-hidden="true"></canvas>
+
+  <!-- Ambient Glowing Spotlight -->
+  <div class="spotlight" id="spotlight" aria-hidden="true"></div>
+
+  <!-- Noise Filter Layer -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- Animated Grid Background -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-ambient-glow" aria-hidden="true"></div>
+
+  <!-- Main Application Container -->
+  <div class="app-container">
+    
+    <!-- Top Navigation Bar -->
+    <header class="app-header reveal-up">
+      <div class="brand-section">
+        <a href="index.html" class="logo">
+          <span class="logo-mark">◈</span>
+          TRAILSCOPE
+        </a>
+        <div class="system-status">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>System Online</span>
+          </div>
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>Risk Engine Active</span>
+          </div>
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>Graph Engine Active</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="nav-actions">
+        <!-- Global Search Bar -->
+        <div class="search-wrapper">
+          <input 
+            type="text" 
+            class="search-input" 
+            id="global-search" 
+            placeholder="Search Account ID..." 
+            autocomplete="off"
+          />
+          <span class="search-icon">🔍</span>
+          <div class="search-loader" id="search-loader"></div>
+        </div>
+        
+        <!-- Settings Cog -->
+        <button class="btn-settings" id="btn-settings" title="Engine Settings" aria-label="Settings">
+          ⚙️
+        </button>
+      </div>
+    </header>
+
+    <!-- SECTION 1: Intelligence Overview Metrics -->
+    <section class="overview-section" id="metrics-container">
+      <!-- Metric cards dynamically loaded by OverviewMetrics.js component -->
+    </section>
+
+    <!-- SECTION 2: Active Fraud Rings dossiers -->
+    <section class="rings-section reveal-scale" style="--delay: 300ms">
+      <div class="rings-header">
+        <h3 class="rings-title">Active Fraud Clusters</h3>
+        <span class="rings-count" id="rings-count-badge">Risk clusters detected</span>
+      </div>
+      <div class="rings-grid" id="rings-container">
+        <!-- Rings dossier cards dynamically loaded by ActiveRings.js component -->
+      </div>
+    </section>
+
+    <!-- SECTION 3: Main Command Center (3 columns) -->
+    <div class="main-grid">
+      
+      <!-- Left Panel: Risk Leaderboard -->
+      <aside class="glass-panel leaderboard-panel reveal-up" style="--delay: 350ms">
+        <div class="panel-title">
+          <span>Risk Ledger</span>
+          <div class="panel-title-line"></div>
+        </div>
+        <div class="leaderboard-filters">
+          <span>Worst anomalies</span>
+          <span>Score</span>
+        </div>
+        <div class="leaderboard-list" id="leaderboard-container">
+          <!-- Scored accounts list loaded dynamically by RiskLeaderboard.js component -->
+        </div>
+      </aside>
+
+      <!-- Center Panel: Network Graph -->
+      <main class="glass-panel graph-panel reveal-scale" style="--delay: 400ms">
+        <div class="panel-title" style="position: absolute; top: 20px; left: 20px; z-index: 10; pointer-events: none;">
+          <span>Money Trail Visualization</span>
+          <div class="panel-title-line" style="width: 120px;"></div>
+        </div>
+        
+        <!-- Legend Overlay -->
+        <div class="graph-legend">
+          <div class="legend-item">
+            <span class="legend-node high"></span>
+            <span>High Risk Account</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-node medium"></span>
+            <span>Medium Risk</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-node low"></span>
+            <span>Low Risk</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-edge"></span>
+            <span>Transfer Flow</span>
+          </div>
+        </div>
+
+        <!-- Zoom and Pan Controls Overlay -->
+        <div class="graph-controls">
+          <button class="graph-btn" id="graph-zoom-in" title="Zoom In">+</button>
+          <button class="graph-btn" id="graph-zoom-out" title="Zoom Out">-</button>
+          <button class="graph-btn" id="graph-fit" title="Fit to View">⛶</button>
+        </div>
+
+        <!-- Interactive Canvas Container -->
+        <div class="graph-canvas-container" id="graph-canvas">
+          <!-- Network graph initialized here by NetworkGraph.js component -->
+        </div>
+      </main>
+
+      <!-- Right Panel: Investigation Dossier -->
+      <section class="glass-panel dossier-panel reveal-up" style="--delay: 450ms">
+        <div class="panel-title">
+          <span>Intelligence Findings</span>
+          <div class="panel-title-line"></div>
+        </div>
+        <div class="dossier-list-wrapper" style="flex: 1; min-height: 0;" id="dossier-container">
+          <!-- Selected account dossier loaded dynamically by AccountDossier.js component -->
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Settings Configuration Modal -->
+  <div class="settings-modal" id="settings-modal" aria-hidden="true">
+    <div class="settings-content">
+      <h3 class="settings-title">Engine Configuration</h3>
+      <div class="settings-group">
+        <label for="setting-backend-url" class="settings-label">Risk Engine API Endpoint</label>
+        <input type="text" id="setting-backend-url" class="settings-input" placeholder="http://localhost:8000" />
+      </div>
+      <div class="settings-buttons">
+        <button class="btn-cancel" id="btn-settings-cancel">Discard Changes</button>
+        <button class="btn-save" id="btn-settings-save">Connect & Sync</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- External Library Dependencies (via CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+  <!-- Modular Javascript Entry -->
+  <script type="module" src="js/investigation.js"></script>
+</body>
+</html>
