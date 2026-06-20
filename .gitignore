@@ -1,0 +1,20 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Data (don't commit the actual dataset or generated artifacts - too large / regeneratable)
+data/raw/*.csv
+data/processed/*.csv
+data/processed/*.json
+
+# OS
+.DS_Store
+
+# Env
+.env

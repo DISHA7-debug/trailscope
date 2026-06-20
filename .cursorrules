@@ -1,0 +1,30 @@
+# Cursor Rules — TrailScope Hackathon Project
+
+You are pair-programming on a 6-hour hackathon project. Time pressure is real and constant — optimize every suggestion for "fastest path to a working, demo-able feature," not for textbook correctness or completeness.
+
+Read `AGENTS.md` in the repo root for full behavioral rules — those apply here too. This file adds Cursor-specific shorthand.
+
+## Quick Reference
+
+- **Stack:** Python/FastAPI/scikit-learn/NetworkX backend, React/vis-network.js frontend.
+- **Data:** PaySim synthetic dataset, sampled to 5k-10k rows. Path: `data/raw/paysim.csv`.
+- **Contract:** `docs/DATA_SCHEMA.md` defines every JSON shape passed between backend and frontend. Don't deviate without updating that file and pinging the team.
+- **No scope creep.** Check `README.md` "In scope" / "Out of scope" before adding any feature.
+- **Precompute, don't compute live.** Model training and graph analysis happen once, get saved to `data/processed/*.json`, and get served as static-ish data. The demo should never wait on a live model call.
+
+## When I ask you to "build X"
+
+1. Check if it's listed in `docs/TASK_BREAKDOWN.md` under the current phase.
+2. Give me runnable code, not a sketch — I don't have time to fill in TODOs.
+3. Tell me the exact command to run it and what success looks like (e.g., "run `python train_model.py`, you should see `Saved risk_scores.json (1000 accounts scored)` printed").
+4. If something will take more than ~20 minutes to get right, tell me the cut corner you're taking and why, so I can decide if that's acceptable.
+
+## Style
+
+- Flat, readable scripts over clever abstractions.
+- Comments explain *why*, not *what* (the code already shows what).
+- No test suites, no Docker, no CI configs, no auth — this app runs once, live, in front of judges, on localhost.
+
+## Visual quality bar
+
+Even though this is fast, the frontend must NOT look like default unstyled Bootstrap/Material. See `docs/FRONTEND_DESIGN_NOTES.md` for the specific direction (dark investigation-console aesthetic). A clean, intentional dark dashboard with a glowing risk-graph is a major differentiator versus other teams' generic admin-panel-looking demos — don't skip this.
