@@ -433,11 +433,11 @@ img {
 
 .hero-visual{
   position:absolute;
-  right:-15%;
+  right:-8%;
   top:50%;
   transform:translateY(-50%);
-  width:900px;
-  height:900px;
+  width:800px;
+  height:800px;
   z-index:1;
 }
 
@@ -919,4 +919,29 @@ img {
 .metric-number {
   white-space: nowrap;
   font-size: clamp(2rem, 4vw, 5rem);
+}
+
+.hero {
+  position: relative;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;   /* text on top */
+}
+
+.hero-visual {
+  position: absolute;
+  top: 50%;
+  right: -1%;   /* was -10% */
+  transform: translateY(-50%);
+  width: 900px;
+  height: 900px;
+  z-index: 0;
+  pointer-events: none;
 }
